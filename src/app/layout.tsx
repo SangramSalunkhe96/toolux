@@ -71,7 +71,7 @@ export default function RootLayout({
             © {new Date().getFullYear()} Toolux — Free, privacy-first web tools.
           </span>
           <span className="text-[11px] opacity-80">
-            Built with Next.js • All processing happens in your browser.
+            Built with software guy • All processing happens in your browser.
           </span>
         </footer>
       </body>
