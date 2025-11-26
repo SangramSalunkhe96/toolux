@@ -14,6 +14,32 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        {/* ---------- GOOGLE ANALYTICS (GA4) ---------- */}
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-95LNSG1FC3"
+        ></script>
+
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-95LNSG1FC3');
+            `,
+          }}
+        />
+
+        {/* ---------- GOOGLE ADSENSE (AUTO ADS) ---------- */}
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=pub-2775890182147722"
+          crossOrigin="anonymous"
+        ></script>
+      </head>
+
       <body>
         <header className="container flex items-center justify-between py-6">
           <div className="flex items-center gap-3">
@@ -32,15 +58,9 @@ export default function RootLayout({
           </div>
 
           <nav className="flex items-center gap-5 text-sm text-[#a6b0bb]">
-            <a href="#tools" className="nav-link">
-              Tools
-            </a>
-            <a href="#why" className="nav-link">
-              Why Toolux?
-            </a>
-            <a href="#faq" className="nav-link">
-              FAQ
-            </a>
+            <a href="#tools" className="nav-link">Tools</a>
+            <a href="#why" className="nav-link">Why Toolux?</a>
+            <a href="#faq" className="nav-link">FAQ</a>
           </nav>
         </header>
 
@@ -48,8 +68,7 @@ export default function RootLayout({
 
         <footer className="container py-10 text-xs text-[#a6b0bb] flex flex-wrap items-center justify-between gap-3">
           <span>
-            © {new Date().getFullYear()} Toolux — Free, privacy-first web
-            tools.
+            © {new Date().getFullYear()} Toolux — Free, privacy-first web tools.
           </span>
           <span className="text-[11px] opacity-80">
             Built with Next.js • All processing happens in your browser.
