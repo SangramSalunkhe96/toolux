@@ -1,6 +1,7 @@
 // @ts-nocheck
 "use client";
 
+import { useState, useRef } from "react";
 import Link from "next/link";
 import { tools } from "@/config/tools";
 
@@ -15,6 +16,74 @@ const groupByCategory = (items) => {
 
 export default function HomePage() {
   const grouped = groupByCategory(tools);
+
+  // ---------- REACTION GAME STATE ----------
+  const [gameState, setGameState] = useState<"idle" | "waiting" | "ready" | "too-early">(
+    "idle"
+  );
+  const [message, setMessage] = useState(
+    "Click “Start test” and then wait until the box turns green. Then tap as fast as you can."
+  );
+  const [lastTime, setLastTime] = useState<number | null>(null);
+  const [bestTime, setBestTime] = useState<number | null>(null);
+  const [attempts, setAttempts] = useState(0);
+
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const startTimeRef = useRef<number | null>(null);
+
+  const startTest = () => {
+    // reset any existing timeout
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+
+    setGameState("waiting");
+    setMessage("Wait for green... don’t click yet 👀");
+
+    // random delay 1–3 seconds
+    const delay = 1000 + Math.random() * 2000;
+    timeoutRef.current = setTimeout(() => {
+      startTimeRef.current = Date.now();
+      setGameState("ready");
+      setMessage("Go! Tap the box NOW 💨");
+      timeoutRef.current = null;
+    }, delay);
+  };
+
+  const handleReactionClick = () => {
+    if (gameState === "waiting") {
+      // clicked too early
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
+      setGameState("too-early");
+      setMessage("Too early! Wait for green next time 😅");
+      return;
+    }
+
+    if (gameState === "ready" && startTimeRef.current) {
+      const now = Date.now();
+      const diff = now - startTimeRef.current; // ms
+
+      setLastTime(diff);
+      setAttempts((prev) => prev + 1);
+      setGameState("idle");
+
+      if (bestTime === null || diff < bestTime) {
+        setBestTime(diff);
+        setMessage(`🔥 New best: ${diff} ms! Hit “Start test” to try again.`);
+      } else {
+        setMessage(`Your time: ${diff} ms. Try again and beat your best!`);
+      }
+
+      startTimeRef.current = null;
+      return;
+    }
+
+    // if idle / too-early and user clicks box, just ignore
+  };
 
   return (
     <main>
@@ -197,6 +266,108 @@ export default function HomePage() {
               </div>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* MINI GAME – REACTION TEST */}
+      <section className="container" style={{ marginTop: 24 }}>
+        <div className="card">
+          <h2 className="section-title">Take a quick break 🎮</h2>
+          <p className="section-sub" style={{ marginTop: 6 }}>
+            Test your reaction speed between conversions. No sign-in, just a tiny fun
+            widget.
+          </p>
+
+          <div className="drop" style={{ marginTop: 14, textAlign: "left" }}>
+            <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 6 }}>
+              Toolux Reaction Test
+            </div>
+            <p
+              className="section-sub"
+              style={{ fontSize: 12, marginBottom: 10, whiteSpace: "pre-line" }}
+            >
+              {message}
+            </p>
+
+            <div
+              onClick={handleReactionClick}
+              style={{
+                marginTop: 8,
+                borderRadius: 14,
+                padding: "18px 12px",
+                textAlign: "center",
+                cursor: gameState === "waiting" || gameState === "ready" ? "pointer" : "default",
+                border: "1px solid #2b3140",
+                background:
+                  gameState === "ready"
+                    ? "linear-gradient(135deg, #22c55e, #16a34a)"
+                    : gameState === "waiting"
+                    ? "linear-gradient(135deg, #1e293b, #020617)"
+                    : "#0b0c10",
+                transition: "background 0.15s ease-out, transform 0.1s ease-out",
+                transform: gameState === "ready" ? "scale(1.01)" : "scale(1)",
+              }}
+            >
+              <span
+                style={{
+                  fontSize: 14,
+                  fontWeight: 600,
+                  color: gameState === "ready" ? "#022c22" : "#e5e7eb",
+                }}
+              >
+                {gameState === "ready"
+                  ? "Tap NOW!"
+                  : gameState === "waiting"
+                  ? "Wait for green..."
+                  : "Click “Start test” below"}
+              </span>
+            </div>
+
+            <div style={{ marginTop: 10, display: "flex", gap: 10, flexWrap: "wrap" }}>
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={startTest}
+                style={{ fontSize: 12 }}
+              >
+                Start test
+              </button>
+              <button
+                type="button"
+                className="btn"
+                onClick={() => {
+                  setGameState("idle");
+                  setMessage(
+                    "Click “Start test” and then wait until the box turns green. Then tap as fast as you can."
+                  );
+                  setLastTime(null);
+                  setBestTime(null);
+                  setAttempts(0);
+                  if (timeoutRef.current) {
+                    clearTimeout(timeoutRef.current);
+                    timeoutRef.current = null;
+                  }
+                }}
+                style={{ fontSize: 12 }}
+              >
+                Reset stats
+              </button>
+            </div>
+
+            <p className="section-sub" style={{ fontSize: 11, marginTop: 8 }}>
+              Attempts: <strong>{attempts}</strong>{" "}
+              {lastTime !== null && (
+                <>
+                  • Last: <strong>{lastTime} ms</strong>
+                </>
+              )}{" "}
+              {bestTime !== null && (
+                <>
+                  • Best: <strong>{bestTime} ms</strong>
+                </>
+              )}
+            </p>
+          </div>
         </div>
       </section>
 
