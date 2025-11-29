@@ -19,21 +19,24 @@ export default function MergePdfPage() {
     setIsMerging(true);
 
     try {
-      const mergedPdf = await PDFDocument.create();
+      const newPdf = await PDFDocument.create();
 
       for (const file of Array.from(files)) {
         if (!file.type.includes("pdf")) continue;
         const bytes = await file.arrayBuffer();
         const pdf = await PDFDocument.load(bytes);
-        const copiedPages = await mergedPdf.copyPages(
+        const copiedPages = await newPdf.copyPages(
           pdf,
           pdf.getPageIndices()
         );
-        copiedPages.forEach((page) => mergedPdf.addPage(page));
+        copiedPages.forEach((page) => newPdf.addPage(page));
       }
 
-      const mergedBytes = await mergedPdf.save();
-      const blob = new Blob([mergedBytes], { type: "application/pdf" });
+  const newBytes = await newPdf.save();
+const blob = new Blob([newBytes.buffer as ArrayBuffer], {
+  type: "application/pdf",
+});
+
       const url = URL.createObjectURL(blob);
 
       const a = document.createElement("a");

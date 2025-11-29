@@ -42,10 +42,14 @@ export default function SplitPdfPage() {
       );
       copiedPages.forEach((page) => newPdf.addPage(page));
 
-      const newBytes = await newPdf.save();
-      const blob = new Blob([newBytes], { type: "application/pdf" });
-      const url = URL.createObjectURL(blob);
+      const newBytes = await newPdf.save(); // Uint8Array
 
+      // ✅ Fix: use ArrayBuffer for BlobPart
+      const blob = new Blob([newBytes.buffer as ArrayBuffer], {
+        type: "application/pdf",
+      });
+
+      const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
       a.download = `split_${start}-${end}.pdf`;
@@ -60,20 +64,20 @@ export default function SplitPdfPage() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-50">
-      <div className="mx-auto max-w-3xl px-4 py-10">
-        <h1 className="text-2xl font-bold text-slate-900 md:text-3xl">
-          Split PDF
-        </h1>
-        <p className="mt-2 text-sm text-slate-600 md:text-base">
-          Extract specific pages from a PDF into a new file.
+    <main className="container" style={{ marginTop: "20px", marginBottom: "20px" }}>
+      <div className="card">
+        <h1 className="section-title">Split PDF</h1>
+        <p className="section-sub" style={{ marginTop: "4px" }}>
+          Extract specific pages from a PDF into a new file using a simple page range,
+          like <code>1-3</code>.
         </p>
 
-        <div className="mt-8 rounded-2xl bg-white p-5 shadow-sm">
-          <label className="flex flex-col items-center justify-center rounded-xl border border-dashed border-slate-300 px-4 py-8 text-center cursor-pointer hover:border-blue-500 transition">
-            <span className="text-sm font-medium text-slate-800">
-              Click to select a PDF file
-            </span>
+        <div style={{ marginTop: "16px" }}>
+          <label className="drop" style={{ cursor: "pointer" }}>
+            <div>Select a PDF to split</div>
+            <div style={{ fontSize: "12px", marginTop: "4px" }}>
+              Click to choose a file from your device
+            </div>
             <input
               type="file"
               accept="application/pdf"
@@ -83,32 +87,44 @@ export default function SplitPdfPage() {
           </label>
 
           {file && (
-            <p className="mt-3 text-xs text-slate-700">
-              Selected: <span className="font-semibold">{file.name}</span>
+            <p className="section-sub" style={{ marginTop: "10px" }}>
+              Selected: <span style={{ color: "#e9eef2" }}>{file.name}</span>
             </p>
           )}
 
-          <div className="mt-5 flex flex-col gap-2 text-sm">
-            <label className="font-medium text-slate-800">
-              Page range (e.g. 1-3):
+          <div style={{ marginTop: "12px" }}>
+            <label style={{ fontSize: "13px", fontWeight: 500 }}>
+              Page range (e.g. 1-3)
             </label>
             <input
               type="text"
               value={range}
               onChange={(e) => setRange(e.target.value)}
-              className="rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-              placeholder="1-3"
+              style={{
+                marginTop: "6px",
+                width: "100%",
+                borderRadius: "10px",
+                border: "1px solid #2b3140",
+                background: "#0b0c10",
+                padding: "8px 10px",
+                fontSize: "13px",
+                color: "#e9eef2",
+                outline: "none",
+              }}
             />
           </div>
 
           {error && (
-            <p className="mt-3 text-sm text-red-600">{error}</p>
+            <p style={{ marginTop: "8px", fontSize: "13px", color: "#fecaca" }}>
+              {error}
+            </p>
           )}
 
           <button
             onClick={handleSplit}
             disabled={isSplitting || !file}
-            className="mt-6 w-full rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm disabled:bg-blue-300 disabled:cursor-not-allowed hover:bg-blue-700 transition"
+            className="btn btn-primary"
+            style={{ marginTop: "14px" }}
           >
             {isSplitting ? "Splitting..." : "Split & Download"}
           </button>
