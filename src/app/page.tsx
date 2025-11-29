@@ -1,108 +1,42 @@
+// @ts-nocheck
 "use client";
 
 import Link from "next/link";
+import { tools } from "@/config/tools";
 
-type Tool = {
-  id: string;
-  title: string;
-  description: string;
-  icon: string;
-  href?: string;
-  meta: string[];
-  live: boolean;
+const groupByCategory = (items) => {
+  const map = new Map();
+  for (const tool of items) {
+    if (!map.has(tool.category)) map.set(tool.category, []);
+    map.get(tool.category).push(tool);
+  }
+  return Array.from(map.entries());
 };
 
-const pdfTools: Tool[] = [
-  {
-    id: "pdf-to-image",
-    title: "PDF to Image",
-    description: "Convert PDF pages into high-quality images (PNG/JPG) in your browser.",
-    icon: "🖼️",
-    href: "/tools/pdf-to-image", // change if your route is different
-    meta: ["Browser only", "Multi-page", "No upload"],
-    live: true,
-  },
-  {
-    id: "image-to-pdf",
-    title: "Image to PDF",
-    description: "Turn one or multiple images into a clean, single PDF.",
-    icon: "📄",
-    href: "/tools/image-to-pdf", // change if your route is different
-    meta: ["JPG / PNG", "Multi-image", "No watermark"],
-    live: true,
-  },
-  {
-    id: "merge-pdf",
-    title: "Merge PDF",
-    description: "Combine multiple PDF files into one document in the exact order you want.",
-    icon: "➕",
-    href: "/tools/merge-pdf",
-    meta: ["Multiple files", "Fast merge"],
-    live: true,
-  },
-  {
-    id: "split-pdf",
-    title: "Split PDF",
-    description: "Extract selected pages or ranges into a new PDF.",
-    icon: "✂️",
-    href: "/tools/split-pdf",
-    meta: ["Page ranges", "Lightweight"],
-    live: true,
-  },
-  {
-    id: "compress-pdf",
-    title: "Compress PDF",
-    description: "Reduce PDF size for email & uploads with a quick browser-side optimization.",
-    icon: "🪄",
-    href: "/tools/compress-pdf",
-    meta: ["Smaller size", "Quick"],
-    live: true,
-  },
-  {
-    id: "pdf-to-word",
-    title: "PDF to Word",
-    description: "Basic text extraction from PDF into an editable Word file.",
-    icon: "📝",
-    href: "/tools/pdf-to-word",
-    meta: ["Text only", "Best for simple PDFs"],
-    live: false, // mark as coming soon if not ready
-  },
-  {
-    id: "word-to-pdf",
-    title: "Word to PDF",
-    description: "Convert DOCX documents into a PDF with one click.",
-    icon: "📚",
-    href: "/tools/word-to-pdf",
-    meta: ["DOCX", "Simple export"],
-    live: false,
-  },
-];
-
 export default function HomePage() {
+  const grouped = groupByCategory(tools);
+
   return (
     <main>
-      {/* ---------- HERO ---------- */}
-      <section className="container" style={{ marginTop: "12px" }}>
+      {/* HERO */}
+      <section className="container" style={{ marginTop: 12 }}>
         <div className="hero-shell">
-          {/* Left side */}
           <div className="hero-left">
             <div className="hero-badge-row">
-              <span className="badge-solid">100% Browser-Only</span>
-              <span className="badge-soft">No file uploads • No login</span>
+              <span className="badge-solid">100% Browser Tools</span>
+              <span className="badge-soft">Pro server tools coming soon</span>
             </div>
 
             <h1 className="hero-title">
               Smart{" "}
-              <span className="hero-gradient">
-                PDF & Image tools
-              </span>{" "}
-              that never leave your device.
+              <span className="hero-gradient">PDF, Office & Image tools</span>{" "}
+              that respect your privacy.
             </h1>
 
             <p className="hero-sub">
-              Toolux runs everything directly in your browser — fast, private and free.  
-              Convert, merge, split or compress your documents without sending them to
-              any server.
+              Toolux runs core tools directly in your browser — no file uploads. When you
+              need pixel-perfect Office conversions, Pro tools will use secure
+              server-side conversion.
             </p>
 
             <div className="hero-actions">
@@ -113,54 +47,59 @@ export default function HomePage() {
                 Why Toolux?
               </a>
               <span className="hero-small-text">
-                Built for everyday creators, students & professionals.
+                Built for students, creators and professionals.
               </span>
             </div>
           </div>
 
-          {/* Right side preview card */}
           <div className="hero-right">
             <div className="hero-card">
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
                 <div>
-                  <div className="hero-card-title">Instant tools preview</div>
+                  <div className="hero-card-title">Tool Preview</div>
                   <div className="hero-card-sub">
                     A quick look at what you can do with Toolux:
                   </div>
                 </div>
-                <span className="badge-solid">Live</span>
+                <span className="badge-solid">Live now</span>
               </div>
 
-              <ul className="hero-tool-list" style={{ marginTop: "10px" }}>
+              <ul className="hero-tool-list" style={{ marginTop: 10 }}>
                 <li>
                   <span className="dot" />
-                  PDF ↔ Image conversion (no quality loss)
+                  Convert PDF ↔ Image entirely on your device.
                 </li>
                 <li>
                   <span className="dot" />
-                  Merge & split PDFs in seconds
+                  Merge / split PDFs without sending files to servers.
                 </li>
                 <li>
                   <span className="dot" />
-                  All operations stay on your device
+                  Extract text from PDFs and Word docs for quick editing.
                 </li>
               </ul>
 
-              <div style={{ marginTop: "12px" }}>
-                <div className="hero-card-title" style={{ fontSize: "12px" }}>
-                  Upcoming tools
-                  <span className="soon-pill" style={{ marginLeft: "8px" }}>
+              <div style={{ marginTop: 12 }}>
+                <div className="hero-card-title" style={{ fontSize: 12 }}>
+                  Upcoming Pro tools
+                  <span className="soon-pill" style={{ marginLeft: 8 }}>
                     soon
                   </span>
                 </div>
                 <ul className="hero-tool-list upcoming">
                   <li>
                     <span className="dot" style={{ background: "#4b5563" }} />
-                    PDF ↔ Word
+                    Word → PDF with exact layout
                   </li>
                   <li>
                     <span className="dot" style={{ background: "#4b5563" }} />
-                    More image utilities
+                    PPT ↔ PDF with slide design
                   </li>
                 </ul>
               </div>
@@ -169,125 +108,155 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ---------- TOOLS GRID ---------- */}
-      <section id="tools" className="container" style={{ marginTop: "24px" }}>
+      {/* TOOLS GRID */}
+      <section id="tools" className="container" style={{ marginTop: 24 }}>
         <div className="card">
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: "8px", flexWrap: "wrap" }}>
-            <div>
-              <h2 className="section-title">PDF & Image tools</h2>
-              <p className="section-sub">
-                Fast, privacy-first utilities for your daily work. Click any tool to start —
-                no signup required.
-              </p>
-            </div>
-            <span className="badge-soft">More tools coming soon</span>
-          </div>
-
-          <div className="tool-grid" style={{ marginTop: "18px" }}>
-            {pdfTools.map((tool) => {
-              const cardClass = tool.live
-                ? "tool-card"
-                : "tool-card tool-card-disabled";
-
-              return (
-                <div key={tool.id} className={cardClass}>
-                  <div className="tool-card-header">
-                    <div className={tool.live ? "tool-icon" : "tool-icon dimmed"}>
-                      <span>{tool.icon}</span>
-                    </div>
-                    <div>
-                      <div className="tool-title">{tool.title}</div>
-                      <div className="tool-sub">{tool.description}</div>
-                    </div>
-                  </div>
-
-                  <ul className="tool-meta">
-                    {tool.meta.map((metaItem) => (
-                      <li key={metaItem}>{metaItem}</li>
-                    ))}
-                    {!tool.live && (
-                      <li className="soon-tag">Coming soon</li>
-                    )}
-                  </ul>
-
-                  {tool.live && tool.href ? (
-                    <Link href={tool.href} className="tool-cta">
-                      Open tool →
-                    </Link>
-                  ) : (
-                    <button className="tool-cta" disabled>
-                      Coming soon
-                    </button>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* ---------- WHY TOOLUX ---------- */}
-      <section id="why" className="container" style={{ marginTop: "24px" }}>
-        <div className="card">
-          <h2 className="section-title">Why people trust Toolux</h2>
-          <p className="section-sub" style={{ marginTop: "6px" }}>
-            A simple stack: everything runs inside your browser, with no hidden uploads
-            or background syncing.
-          </p>
-
           <div
             style={{
-              display: "grid",
-              gap: "16px",
-              marginTop: "18px",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "baseline",
+              gap: 8,
+              flexWrap: "wrap",
             }}
           >
+            <div>
+              <h2 className="section-title">All Tools</h2>
+              <p className="section-sub">
+                Browse PDF, Office and Image tools. Core tools run in-browser; Pro tools
+                will use secure server conversion based on user interest.
+              </p>
+            </div>
+            <span className="badge-soft">
+              {tools.length} tools • more coming soon
+            </span>
+          </div>
+
+          {grouped.map(([category, catTools]) => (
+            <div key={category} style={{ marginTop: 18 }}>
+              <h3
+                className="section-title"
+                style={{ fontSize: 15, marginBottom: 8 }}
+              >
+                {category}
+              </h3>
+              <div className="tool-grid">
+                {catTools.map((tool) => {
+                  const cardClass = tool.pro
+                    ? "tool-card tool-card-disabled"
+                    : "tool-card";
+
+                  return (
+                    <div key={tool.id} className={cardClass}>
+                      <div className="tool-card-header">
+                        <div className={tool.pro ? "tool-icon dimmed" : "tool-icon"}>
+                          <span>{tool.icon}</span>
+                        </div>
+                        <div>
+                          <div className="tool-title">
+                            {tool.title}{" "}
+                            {tool.pro && (
+                              <span
+                                style={{
+                                  fontSize: 10,
+                                  marginLeft: 6,
+                                  padding: "2px 6px",
+                                  borderRadius: 999,
+                                  border: "1px solid #4b5563",
+                                  textTransform: "uppercase",
+                                  letterSpacing: 0.03,
+                                }}
+                              >
+                                Pro idea
+                              </span>
+                            )}
+                          </div>
+                          <div className="tool-sub">{tool.description}</div>
+                        </div>
+                      </div>
+
+                      <ul className="tool-meta">
+                        {tool.meta.map((m) => (
+                          <li key={m}>{m}</li>
+                        ))}
+                        {tool.pro && <li className="soon-tag">Collecting interest</li>}
+                      </ul>
+
+                      {tool.pro ? (
+                        <Link href={tool.slug} className="tool-cta">
+                          Learn more &amp; I’m interested →
+                        </Link>
+                      ) : (
+                        <Link href={tool.slug} className="tool-cta">
+                          Open tool →
+                        </Link>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* WHY TOOLUX */}
+      <section id="why" className="container" style={{ marginTop: 24 }}>
+        <div className="card">
+          <h2 className="section-title">Why people trust Toolux</h2>
+          <p className="section-sub" style={{ marginTop: 6 }}>
+            A mix of offline browser tools + optional Pro conversions when you need
+            pixel-perfect office documents.
+          </p>
+
+          <div style={{ display: "grid", gap: 16, marginTop: 18 }}>
             <div className="drop">
-              <strong>Privacy-first by design</strong>
+              <strong>Privacy-first by default</strong>
               <br />
-              Files never leave your device. No servers, no storage, no account needed.
+              Core tools never upload your files. Everything happens locally in the
+              browser.
             </div>
             <div className="drop">
-              <strong>Built for speed</strong>
+              <strong>Fast &amp; simple</strong>
               <br />
-              Open a tool and start — no ads pop-ups in your face, no heavy UI, no lag.
+              No heavy UI, no account, just quick tools that open and work.
             </div>
             <div className="drop">
-              <strong>Made by a developer, not a corporation</strong>
+              <strong>Pro when you need it</strong>
               <br />
-              Toolux is crafted with care, continuously improved and tuned for real usage.
+              For perfect Office conversions, Pro tools will use a secure backend
+              pipeline — and we’ll build the most requested ones first.
             </div>
           </div>
         </div>
       </section>
 
-      {/* ---------- FAQ ---------- */}
-      <section id="faq" className="container" style={{ marginTop: "24px", marginBottom: "24px" }}>
+      {/* FAQ */}
+      <section
+        id="faq"
+        className="container"
+        style={{ marginTop: 24, marginBottom: 24 }}
+      >
         <div className="card">
           <h2 className="section-title">FAQ</h2>
 
-          <div style={{ marginTop: "12px", display: "grid", gap: "12px" }}>
+          <div style={{ marginTop: 12, display: "grid", gap: 12 }}>
             <div>
-              <strong style={{ fontSize: "13px" }}>Do you upload my files anywhere?</strong>
-              <p className="section-sub" style={{ marginTop: "4px" }}>
-                No. Everything is done using in-browser JavaScript/WebAssembly. When you close
-                the tab, the files are gone.
+              <strong style={{ fontSize: 13 }}>
+                Do you upload my files to a server?
+              </strong>
+              <p className="section-sub" style={{ marginTop: 4 }}>
+                Core tools (PDF ↔ Image, Merge, Split, basic Word tools, Image
+                Compressor) run fully in-browser. Pro tools will clearly indicate when a
+                secure server is used for conversion.
               </p>
             </div>
 
             <div>
-              <strong style={{ fontSize: "13px" }}>Is Toolux completely free?</strong>
-              <p className="section-sub" style={{ marginTop: "4px" }}>
-                Yes. All current tools are free to use. In future, optional pro features
-                might be added — but the core tools stay free.
-              </p>
-            </div>
-
-            <div>
-              <strong style={{ fontSize: "13px" }}>Which devices does it work on?</strong>
-              <p className="section-sub" style={{ marginTop: "4px" }}>
-                Any modern browser — Chrome, Edge, Firefox, Brave, on desktop or laptop.  
-                Mobile support is improving as we optimise the UI.
+              <strong style={{ fontSize: 13 }}>Are the tools free?</strong>
+              <p className="section-sub" style={{ marginTop: 4 }}>
+                Yes, all current tools are free. In future, some Pro features may have
+                limits or require sign-in, depending on demand.
               </p>
             </div>
           </div>

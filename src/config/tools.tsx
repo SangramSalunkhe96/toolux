@@ -1,0 +1,122 @@
+// @ts-nocheck
+
+export const tools = [
+  // PDF tools
+  {
+    id: "pdf-to-image",
+    slug: "/tools/pdf-to-image",
+    title: "PDF to Image",
+    description: "Convert each page of a PDF into high-quality images.",
+    icon: "🖼️",
+    category: "PDF",
+    meta: ["Browser-only", "Multi-page", "No upload"],
+    pro: false,
+  },
+  {
+    id: "image-to-pdf",
+    slug: "/tools/image-to-pdf",
+    title: "Image to PDF",
+    description: "Combine images into a single, clean PDF.",
+    icon: "📄",
+    category: "PDF",
+    meta: ["JPG / PNG", "Multi-image"],
+    pro: false,
+  },
+  {
+    id: "merge-pdf",
+    slug: "/tools/merge-pdf",
+    title: "Merge PDF",
+    description: "Combine multiple PDFs in the order you choose.",
+    icon: "➕",
+    category: "PDF",
+    meta: ["Multiple files", "Fast"],
+    pro: false,
+  },
+  {
+    id: "split-pdf",
+    slug: "/tools/split-pdf",
+    title: "Split PDF",
+    description: "Extract page ranges into new PDFs.",
+    icon: "✂️",
+    category: "PDF",
+    meta: ["Page ranges", "Lightweight"],
+    pro: false,
+  },
+  {
+    id: "compress-pdf",
+    slug: "/tools/compress-pdf",
+    title: "Compress PDF",
+    description: "Quick browser-side optimization to reduce size.",
+    icon: "🪄",
+    category: "PDF",
+    meta: ["Simple compression"],
+    pro: false,
+  },
+
+  // Office basic (client-side, text-only)
+  {
+    id: "pdf-to-word",
+    slug: "/tools/pdf-to-word",
+    title: "PDF to Word (Text Only)",
+    description: "Extract text from PDFs into an editable DOCX file.",
+    icon: "📝",
+    category: "Office",
+    meta: ["Text-only", "No images"],
+    pro: false,
+  },
+  {
+    id: "word-to-pdf",
+    slug: "/tools/word-to-pdf",
+    title: "Word to PDF (Text Only)",
+    description: "Convert DOCX text into a simple PDF.",
+    icon: "📄",
+    category: "Office",
+    meta: ["Text-only", "Browser-only"],
+    pro: false,
+  },
+
+  // Office Pro (server-based, layout preserved)
+  {
+    id: "word-to-pdf-pro",
+    slug: "/tools/word-to-pdf-pro",
+    title: "Word to PDF Pro",
+    description:
+      "Server-based conversion that keeps formatting, images and layout exactly like Word.",
+    icon: "🚀",
+    category: "Office Pro",
+    meta: ["Full layout", "Images", "Server-based"],
+    pro: true,
+  },
+  {
+    id: "ppt-to-pdf-pro",
+    slug: "/tools/ppt-to-pdf",
+    title: "PPT to PDF Pro",
+    description: "Convert PowerPoint slides to PDF with preserved design.",
+    icon: "📊",
+    category: "Office Pro",
+    meta: ["Slides → PDF", "Layout kept"],
+    pro: true,
+  },
+  {
+    id: "pdf-to-ppt-pro",
+    slug: "/tools/pdf-to-ppt",
+    title: "PDF to PPT Pro",
+    description: "Turn PDFs into editable PowerPoint slides using a server converter.",
+    icon: "🔁",
+    category: "Office Pro",
+    meta: ["PDF → PPTX", "Server-based"],
+    pro: true,
+  },
+
+  // Image tools
+  {
+    id: "image-compressor",
+    slug: "/tools/image-compressor",
+    title: "Image Compressor",
+    description: "Compress images in your browser with adjustable quality.",
+    icon: "📉",
+    category: "Image",
+    meta: ["JPG / PNG", "Quality slider"],
+    pro: false,
+  },
+];
