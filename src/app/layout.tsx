@@ -18,7 +18,7 @@ export default function RootLayout({
         {/* ---------- GOOGLE ANALYTICS (GA4) ---------- */}
         <script
           async
-          src="https://www.googletagmanager.com/gtag/js?id=G-B2Y7KX73BL"
+          src="https://www.googletagmanager.com/gtag/js?id=G-95LNSG1FC3"
         ></script>
 
         <script
@@ -27,7 +27,7 @@ export default function RootLayout({
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
-              gtag('config', 'G-B2Y7KX73BL');
+              gtag('config', 'G-95LNSG1FC3');
             `,
           }}
         />
