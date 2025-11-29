@@ -7,8 +7,8 @@ body{ background:var(--bg); color:var(--text); }
 
 .container{ max-width:1100px; margin:0 auto; padding:24px 16px; }
 .card{ background:var(--card); border:1px solid #222631; border-radius:16px; padding:18px; margin-top: 15px; box-shadow:0 6px 18px rgba(0,0,0,.25) }
-.btn{ display:inline-flex; align-items:center; gap:8px; border:1px solid #2b3140; padding:8px 12px; border-radius:12px; background:#11141b; color:var(--text); }
-.btn-primary{ background:linear-gradient(135deg,#7c3aed,#06b6d4); border:none; margin-left: 15px; color:white; }
+.btn{ display:inline-flex; align-items:center; gap:8px; border:1px solid #2b3140; padding:8px 12px; border-radius:12px; background:#11141b; color:var(--text); text-decoration: none;}
+.btn-primary{ background:linear-gradient(135deg,#7c3aed,#06b6d4); border:none; margin-left: 15px; color:white; text-decoration: none;}
 .drop{ border:1.5px dashed #2b3140; border-radius:12px; padding:16px; text-align:center; color:var(--muted); }
 .drop.dragover{ border-color:var(--accent); color:var(--accent); background:rgba(94,225,165,0.06) }
 .logo-mark {
@@ -78,6 +78,8 @@ body{ background:var(--bg); color:var(--text); }
 
 /* Nav links */
 .nav-link {
+  text-decoration: none;
+  color: white;
   position: relative;
   padding-right: 10px;
 }
@@ -281,6 +283,7 @@ body{ background:var(--bg); color:var(--text); }
   border: 1px solid #222631;
 }
 .tool-cta {
+  text-decoration: none;
   margin-top: 6px;
   font-size: 12px;
   padding: 7px 11px;
@@ -306,4 +309,7 @@ body{ background:var(--bg); color:var(--text); }
   border-radius: 999px;
   background: rgba(248, 250, 252, 0.06);
   border: 1px solid #4b5563;
+}
+.text-black{
+  margin: 10px;
 }
