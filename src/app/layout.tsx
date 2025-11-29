@@ -89,14 +89,21 @@ export default function RootLayout({
         {children}
 
         {/* ---------- FOOTER ---------- */}
-        <footer className="container py-10 text-xs text-[#a6b0bb] flex flex-wrap items-center justify-between gap-3">
-          <span>
-            © {new Date().getFullYear()} Toolux — Free, privacy-first web tools.
-          </span>
-          <span className="text-[11px] opacity-80">
-            Built by a software guy • All processing happens in your browser.
-          </span>
-        </footer>
+       <footer className="container py-10 text-xs text-[#a6b0bb] flex flex-wrap items-center justify-between gap-3">
+  <span>
+    © {new Date().getFullYear()} Toolux — Free, privacy-first web tools.
+  </span>
+
+  <div className="flex gap-4 text-[11px] opacity-80">
+    <a href="/privacy-policy" className="nav-link">Privacy</a>
+    <a href="/terms" className="nav-link">Terms</a>
+    <a href="/cookies" className="nav-link">Cookies</a>
+    <a href="/disclaimer" className="nav-link">Disclaimer</a>
+    <a href="/about" className="nav-link">About</a>
+    <a href="/contact" className="nav-link">Contact</a>
+  </div>
+</footer>
+
       </body>
     </html>
   );
