@@ -1,11 +1,6 @@
 // @ts-nocheck
 "use client";
 
-export const metadata = {
-  title: "Protect PDF (Coming Soon) – Toolux",
-  description:
-    "Planned Pro tool to password protect PDFs and restrict editing and copying. Coming soon to Toolux.",
-};
 
 export default function ProtectPdfPage() {
   return (
