@@ -3,9 +3,10 @@
 
 import { useState, ChangeEvent } from "react";
 
+
 export default function ImageCompressorPage() {
   const [files, setFiles] = useState<FileList | null>(null);
-  const [quality, setQuality] = useState(0.7); // 0–1
+  const [quality, setQuality] = useState(0.7);
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -54,10 +55,8 @@ export default function ImageCompressorPage() {
           continue;
         }
 
-        // Keep original size (you can also downscale if you want)
         canvas.width = img.width;
         canvas.height = img.height;
-
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
         const blob = await canvasToBlob(canvas, quality);
@@ -83,19 +82,18 @@ export default function ImageCompressorPage() {
       <div className="card">
         <h1 className="section-title">Image Compressor</h1>
         <p className="section-sub" style={{ marginTop: 4 }}>
-          Compress JPG/PNG images in your browser with adjustable quality. No uploads,
-          everything happens locally.
+          Compress JPG/PNG images entirely in your browser using a simple quality slider.
+          No uploads, no tracking.
         </p>
 
-        {/* Tool preview */}
         <div className="drop" style={{ marginTop: 12, textAlign: "left" }}>
           <div style={{ fontSize: 12, fontWeight: 600, marginBottom: 4 }}>
             Tool preview
           </div>
           <ul style={{ fontSize: 12, paddingLeft: 18, margin: 0 }}>
-            <li>Best for: reducing image size for email, web, forms.</li>
-            <li>Output: compressed JPEG files.</li>
-            <li>Limitations: does not change resolution by default.</li>
+            <li>Best for: reducing photo size for email/forms.</li>
+            <li>Output: compressed JPEG images.</li>
+            <li>Limitations: resolution stays the same (no resize yet).</li>
           </ul>
         </div>
 
@@ -135,7 +133,7 @@ export default function ImageCompressorPage() {
               style={{ width: "100%", marginTop: 6 }}
             />
             <p className="section-sub" style={{ marginTop: 4 }}>
-              Lower quality = smaller file size. 70–80% works well for most photos.
+              Lower quality = smaller file size. 70–80% usually looks good.
             </p>
           </div>
 

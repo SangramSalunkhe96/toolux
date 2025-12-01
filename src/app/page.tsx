@@ -5,18 +5,12 @@ import { useState, useRef } from "react";
 import Link from "next/link";
 import { tools } from "@/config/tools";
 
-const groupByCategory = (items) => {
-  const map = new Map();
-  for (const tool of items) {
-    if (!map.has(tool.category)) map.set(tool.category, []);
-    map.get(tool.category).push(tool);
-  }
-  return Array.from(map.entries());
-};
+const liveTools = tools.filter((t) => !t.comingSoon);
+const popularTools = liveTools.filter((t) => t.isPopular);
+
+const categories = ["All", ...Array.from(new Set(tools.map((t) => t.category)))];
 
 export default function HomePage() {
-  const grouped = groupByCategory(tools);
-
   // ---------- REACTION GAME STATE ----------
   const [gameState, setGameState] = useState<"idle" | "waiting" | "ready" | "too-early">(
     "idle"
@@ -32,7 +26,6 @@ export default function HomePage() {
   const startTimeRef = useRef<number | null>(null);
 
   const startTest = () => {
-    // reset any existing timeout
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
       timeoutRef.current = null;
@@ -41,7 +34,6 @@ export default function HomePage() {
     setGameState("waiting");
     setMessage("Wait for green... don’t click yet 👀");
 
-    // random delay 1–3 seconds
     const delay = 1000 + Math.random() * 2000;
     timeoutRef.current = setTimeout(() => {
       startTimeRef.current = Date.now();
@@ -53,7 +45,6 @@ export default function HomePage() {
 
   const handleReactionClick = () => {
     if (gameState === "waiting") {
-      // clicked too early
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
         timeoutRef.current = null;
@@ -65,7 +56,7 @@ export default function HomePage() {
 
     if (gameState === "ready" && startTimeRef.current) {
       const now = Date.now();
-      const diff = now - startTimeRef.current; // ms
+      const diff = now - startTimeRef.current;
 
       setLastTime(diff);
       setAttempts((prev) => prev + 1);
@@ -81,9 +72,29 @@ export default function HomePage() {
       startTimeRef.current = null;
       return;
     }
-
-    // if idle / too-early and user clicks box, just ignore
   };
+
+  const resetGame = () => {
+    setGameState("idle");
+    setMessage(
+      "Click “Start test” and then wait until the box turns green. Then tap as fast as you can."
+    );
+    setLastTime(null);
+    setBestTime(null);
+    setAttempts(0);
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+  };
+
+  // ---------- TOOL FILTER STATE ----------
+  const [selectedCategory, setSelectedCategory] = useState<string>("All");
+
+  const filteredTools =
+    selectedCategory === "All"
+      ? tools
+      : tools.filter((t) => t.category === selectedCategory);
 
   return (
     <main>
@@ -150,7 +161,7 @@ export default function HomePage() {
                 </li>
                 <li>
                   <span className="dot" />
-                  Extract text from PDFs and Word docs for quick editing.
+                  Compress images and extract text in your browser.
                 </li>
               </ul>
 
@@ -177,7 +188,45 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* TOOLS GRID */}
+      {/* POPULAR TOOLS */}
+      <section className="container" style={{ marginTop: 24 }}>
+        <div className="card">
+          <h2 className="section-title">Popular tools</h2>
+          <p className="section-sub" style={{ marginTop: 4 }}>
+            Most-used tools on Toolux right now. Fast, free and private.
+          </p>
+
+          <div className="tool-grid" style={{ marginTop: 14 }}>
+            {popularTools.map((tool) => (
+              <Link
+                key={tool.id}
+                href={tool.slug}
+                className="tool-card"
+                style={{ textDecoration: "none" }}
+              >
+                <div className="tool-card-header">
+                  <div className="tool-icon">
+                    <span>{tool.icon}</span>
+                  </div>
+                  <div>
+                    <div className="tool-title">{tool.title}</div>
+                    <div className="tool-sub">{tool.description}</div>
+                  </div>
+                </div>
+                <ul className="tool-meta">
+                  {tool.meta.map((m) => (
+                    <li key={m}>{m}</li>
+                  ))}
+                  <li className="soon-tag">Popular</li>
+                </ul>
+                <span className="tool-cta">Open tool →</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ALL TOOLS WITH CATEGORY FILTER */}
       <section id="tools" className="container" style={{ marginTop: 24 }}>
         <div className="card">
           <div
@@ -190,10 +239,10 @@ export default function HomePage() {
             }}
           >
             <div>
-              <h2 className="section-title">All Tools</h2>
+              <h2 className="section-title">All tools</h2>
               <p className="section-sub">
-                Browse PDF, Office and Image tools. Core tools run in-browser; Pro tools
-                will use secure server conversion based on user interest.
+                Filter by category to quickly find the tool you need. Live tools open
+                directly; Pro ideas show planned features.
               </p>
             </div>
             <span className="badge-soft">
@@ -201,71 +250,104 @@ export default function HomePage() {
             </span>
           </div>
 
-          {grouped.map(([category, catTools]) => (
-            <div key={category} style={{ marginTop: 18 }}>
-              <h3
-                className="section-title"
-                style={{ fontSize: 15, marginBottom: 8 }}
-              >
-                {category}
-              </h3>
-              <div className="tool-grid">
-                {catTools.map((tool) => {
-                  const cardClass = tool.pro
-                    ? "tool-card tool-card-disabled"
-                    : "tool-card";
+          {/* Category tabs */}
+          <div
+            style={{
+              marginTop: 16,
+              display: "flex",
+              gap: 8,
+              overflowX: "auto",
+              paddingBottom: 4,
+            }}
+          >
+            {categories.map((cat) => {
+              const isActive = selectedCategory === cat;
+              return (
+                <button
+                  key={cat}
+                  type="button"
+                  onClick={() => setSelectedCategory(cat)}
+                  className="pill"
+                  style={{
+                    borderRadius: 999,
+                    border: isActive ? "1px solid #60a5fa" : "1px solid #2b3140",
+                    background: isActive
+                      ? "linear-gradient(135deg,#1d4ed8,#0f766e)"
+                      : "transparent",
+                    color: isActive ? "#e5e7eb" : "#a6b0bb",
+                    fontSize: 11,
+                    cursor: "pointer",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {cat === "All" ? "All tools" : cat}
+                </button>
+              );
+            })}
+          </div>
 
-                  return (
-                    <div key={tool.id} className={cardClass}>
-                      <div className="tool-card-header">
-                        <div className={tool.pro ? "tool-icon dimmed" : "tool-icon"}>
-                          <span>{tool.icon}</span>
-                        </div>
-                        <div>
-                          <div className="tool-title">
-                            {tool.title}{" "}
-                            {tool.pro && (
-                              <span
-                                style={{
-                                  fontSize: 10,
-                                  marginLeft: 6,
-                                  padding: "2px 6px",
-                                  borderRadius: 999,
-                                  border: "1px solid #4b5563",
-                                  textTransform: "uppercase",
-                                  letterSpacing: 0.03,
-                                }}
-                              >
-                                Pro idea
-                              </span>
-                            )}
-                          </div>
-                          <div className="tool-sub">{tool.description}</div>
-                        </div>
-                      </div>
+          {/* Filtered tools grid */}
+          <div className="tool-grid" style={{ marginTop: 18 }}>
+            {filteredTools.map((tool) => {
+              const isComingSoon = tool.comingSoon;
+              const isPro = tool.pro;
+              const cardClass = isComingSoon
+                ? "tool-card tool-card-disabled"
+                : "tool-card";
 
-                      <ul className="tool-meta">
-                        {tool.meta.map((m) => (
-                          <li key={m}>{m}</li>
-                        ))}
-                        {tool.pro && <li className="soon-tag">Collecting interest</li>}
-                      </ul>
-
-                      {tool.pro ? (
-                        <Link href={tool.slug} className="tool-cta">
-                          Learn more &amp; I’m interested →
-                        </Link>
-                      ) : (
-                        <Link href={tool.slug} className="tool-cta">
-                          Open tool →
-                        </Link>
-                      )}
+              return (
+                <div key={tool.id} className={cardClass}>
+                  <div className="tool-card-header">
+                    <div
+                      className={
+                        isComingSoon || isPro ? "tool-icon dimmed" : "tool-icon"
+                      }
+                    >
+                      <span>{tool.icon}</span>
                     </div>
-                  );
-                })}
-              </div>
-            </div>
-          ))}
+                    <div>
+                      <div className="tool-title">
+                        {tool.title}{" "}
+                        {isPro && (
+                          <span
+                            style={{
+                              fontSize: 10,
+                              marginLeft: 6,
+                              padding: "2px 6px",
+                              borderRadius: 999,
+                              border: "1px solid #4b5563",
+                              textTransform: "uppercase",
+                              letterSpacing: 0.03,
+                            }}
+                          >
+                            Pro idea
+                          </span>
+                        )}
+                      </div>
+                      <div className="tool-sub">{tool.description}</div>
+                    </div>
+                  </div>
+
+                  <ul className="tool-meta">
+                    {tool.meta.map((m) => (
+                      <li key={m}>{m}</li>
+                    ))}
+                    {isComingSoon && <li className="soon-tag">Coming soon</li>}
+                  </ul>
+
+                  {isComingSoon ? (
+                    <span className="tool-cta" style={{ opacity: 0.8 }}>
+                      Coming soon
+                    </span>
+                  ) : (
+                    <Link href={tool.slug} className="tool-cta">
+                      Open tool →
+                    </Link>
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </div>
       </section>
 
@@ -296,7 +378,10 @@ export default function HomePage() {
                 borderRadius: 14,
                 padding: "18px 12px",
                 textAlign: "center",
-                cursor: gameState === "waiting" || gameState === "ready" ? "pointer" : "default",
+                cursor:
+                  gameState === "waiting" || gameState === "ready"
+                    ? "pointer"
+                    : "default",
                 border: "1px solid #2b3140",
                 background:
                   gameState === "ready"
@@ -335,19 +420,7 @@ export default function HomePage() {
               <button
                 type="button"
                 className="btn"
-                onClick={() => {
-                  setGameState("idle");
-                  setMessage(
-                    "Click “Start test” and then wait until the box turns green. Then tap as fast as you can."
-                  );
-                  setLastTime(null);
-                  setBestTime(null);
-                  setAttempts(0);
-                  if (timeoutRef.current) {
-                    clearTimeout(timeoutRef.current);
-                    timeoutRef.current = null;
-                  }
-                }}
+                onClick={resetGame}
                 style={{ fontSize: 12 }}
               >
                 Reset stats

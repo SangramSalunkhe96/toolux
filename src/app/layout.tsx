@@ -28,7 +28,45 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
+      <body className="overflow-x-hidden">
+
+<header className="container py-4 sm:py-6">
+  <div className="flex items-center justify-between gap-3 flex-wrap">
+    {/* Left side: logo + name + pill */}
+    <div className="flex items-center gap-3 min-w-0">
+      <div className="logo-badge">
+        <span className="logo-dot" />
+        <span className="logo-text">Tx</span>
+      </div>
+
+      <div className="flex flex-col">
+        <span className="font-semibold tracking-wide truncate">Toolux</span>
+        <span className="text-[11px] text-[#a6b0bb]">
+          Smart, private web utilities
+        </span>
+      </div>
+
+      {/* hide on small screens, show again from md and up */}
+      <span className="pill hidden md:inline-flex">
+        FREE • NO UPLOADS
+      </span>
+    </div>
+
+    {/* Right side: nav */}
+    <nav className="flex flex-wrap gap-4 text-xs sm:text-sm text-[#a6b0bb]">
+      <a href="#tools" className="nav-link">
+        Tools
+      </a>
+      <a href="#why" className="nav-link">
+        Why Toolux?
+      </a>
+      <a href="#faq" className="nav-link">
+        FAQ
+      </a>
+    </nav>
+  </div>
+</header>
+
         {/* ---------- GOOGLE ANALYTICS (GA4) ---------- */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-95LNSG1FC3"
@@ -55,35 +93,7 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
 
-        {/* ---------- HEADER ---------- */}
-        <header className="container flex items-center justify-between py-6">
-          <div className="flex items-center gap-3">
-            {/* Simple original logo – not copied from anywhere */}
-            <div className="logo-badge">
-              <span className="logo-dot" />
-              <span className="logo-text">Tx</span>
-            </div>
-            <div className="flex flex-col">
-              <span className="font-semibold tracking-wide">Toolux</span>
-              <span className="text-[11px] text-[#a6b0bb]">
-                Smart, private web utilities
-              </span>
-            </div>
-            <span className="pill">FREE • NO UPLOADS</span>
-          </div>
 
-          <nav className="flex items-center gap-5 text-sm text-[#a6b0bb]">
-            <a href="/#tools" className="nav-link">
-              Tools
-            </a>
-            <a href="/#why" className="nav-link">
-              Why Toolux?
-            </a>
-            <a href="/#faq" className="nav-link">
-              FAQ
-            </a>
-          </nav>
-        </header>
 
         {/* ---------- PAGE CONTENT ---------- */}
         {children}

@@ -260,6 +260,7 @@ body{ background:var(--bg); color:var(--text); }
   opacity: 0.6;
 }
 .tool-title {
+  color: white;
   font-size: 15px;
   font-weight: 600;
 }
@@ -312,4 +313,19 @@ body{ background:var(--bg); color:var(--text); }
 }
 .text-black{
   margin: 10px;
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 18px 12px;
+  }
+
+  .hero-shell {
+    padding: 16px 14px;
+    border-radius: 22px;
+  }
+
+  .tool-grid {
+    grid-template-columns: 1fr;
+  }
 }
