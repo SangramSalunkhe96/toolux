@@ -306,18 +306,7 @@ export const tools = [
     comingSoon: false,
     isPopular: false,
   },
-  {
-    id: "qr-code-generator",
-    slug: "/tools/qr-code-generator",
-    title: "QR Code Generator (Coming Soon)",
-    description: "Create QR codes from links or text.",
-    icon: "� QR",
-    category: "Utility",
-    meta: ["Share links"],
-    pro: false,
-    comingSoon: true,
-    isPopular: false,
-  },
+  
   {
   id: "case-converter",
   slug: "/tools/case-converter",
