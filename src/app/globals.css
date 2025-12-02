@@ -122,7 +122,7 @@ body{ background:var(--bg); color:var(--text); }
   gap: 14px;
 }
 .hero-badge-row {
-  display: flex;
+  
   flex-wrap: wrap;
   gap: 8px;
 }
