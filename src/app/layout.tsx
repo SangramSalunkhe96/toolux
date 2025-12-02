@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
+import Link from "next/link";
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -56,10 +57,12 @@ export default function RootLayout({
           <div className="flex items-center justify-between gap-3 flex-wrap">
             {/* Left side: logo + name + pill */}
             <div className="flex items-center gap-3 min-w-0">
-          <div className="logo-badge animated-logo">
-  <div className="logo-ring"></div>
-  <span className="logo-text">Tx</span>
-</div>
+        <Link href="/" className="logo-link" aria-label="Toolux home">
+  <div className="logo-badge animated-logo">
+    <div className="logo-ring"></div>
+    <span className="logo-text">Tx</span>
+  </div>
+</Link>
 
 
 
@@ -88,6 +91,9 @@ export default function RootLayout({
               <a href="#faq" className="nav-link">
                 FAQ
               </a>
+              <a href="/blog" className="nav-link">
+    Blog
+  </a>
             </nav>
           </div>
         </header>

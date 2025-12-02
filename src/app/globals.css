@@ -348,6 +348,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: transform 0.25s ease-out, filter 0.25s ease-out;
 }
 
 /* Very thin gradient ring */
@@ -391,6 +392,17 @@ body {
   text-shadow: 0 0 10px rgba(90, 180, 255, 0.3);
 }
 
+/* 🌟 hover animation */
+.logo-link:hover .animated-logo {
+  transform: scale(1.06);
+  filter: drop-shadow(0 0 8px #22d3ee);
+}
+
+/* click/active press */
+.logo-link:active .animated-logo {
+  transform: scale(0.97);
+}
+
 
 /* Rotating animation */
 @keyframes spin {
@@ -398,4 +410,20 @@ body {
     transform: rotate(360deg);
   }
 }
+
+
+.logo-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  text-decoration: none;
+  outline: none;
+}
+
+/* Custom, softer focus style for keyboard users */
+.logo-link:focus-visible {
+  box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.7); /* cyan ring */
+}
+
 

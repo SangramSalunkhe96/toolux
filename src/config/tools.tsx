@@ -222,6 +222,19 @@ export const tools = [
     comingSoon: false,
     isPopular: true,
   },
+
+  {
+  id: "passport-photo-maker",
+  slug: "/tools/passport-photo-maker",
+  title: "Passport Photo Maker",
+  description: "Create passport-size photos for India, US and EU using any picture.",
+  icon: "🪪",
+  category: "Image",
+  meta: ["In-browser"],
+  pro: false,
+  comingSoon: false,
+  isPopular: true,
+},
   {
     id: "image-resizer",
     slug: "/tools/image-resizer",
@@ -306,6 +319,19 @@ export const tools = [
     comingSoon: false,
     isPopular: false,
   },
+
+  {
+  id: "jwt-decoder",
+  slug: "/tools/jwt-decoder",
+  title: "JWT Decoder",
+  description: "Decode JWT header and payload safely in your browser.",
+  icon: "🧩",
+  category: "Developer",
+  meta: ["In-browser"],
+  pro: false,
+  comingSoon: false,
+  isPopular: false,
+},
   
   {
   id: "case-converter",
@@ -372,5 +398,45 @@ export const tools = [
   meta: ["Security"],
   pro: false,
   comingSoon: false,
+},
+
+// --- SEO / marketing tools ---
+{
+  id: "meta-tag-generator",
+  slug: "/tools/meta-tag-generator",
+  title: "Meta Tag Generator",
+  description: "Generate SEO, Open Graph and Twitter meta tags for any web page.",
+  icon: "🔖",
+  category: "SEO & Social",
+  meta: ["Developers", "Creators"],
+  pro: false,
+  comingSoon: false,
+  isPopular: true,
+},
+{
+  id: "utm-builder",
+  slug: "/tools/utm-builder",
+  title: "UTM Link Builder",
+  description: "Create Google Analytics tracking links for campaigns in seconds.",
+  icon: "🔗",
+  category: "SEO & Social",
+  meta: ["Marketing"],
+  pro: false,
+  comingSoon: false,
+  isPopular: false,
+},
+
+// --- Fun / viral tools ---
+{
+  id: "fancy-text",
+  slug: "/tools/fancy-text",
+  title: "Fancy Text Generator",
+  description: "Create stylish text for Instagram bios, usernames and captions.",
+  icon: "✨",
+  category: "Fun & Text",
+  meta: ["Social"],
+  pro: false,
+  comingSoon: false,
+  isPopular: true,
 },
 ];
