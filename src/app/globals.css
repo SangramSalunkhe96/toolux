@@ -82,6 +82,8 @@ body{ background:var(--bg); color:var(--text); }
   color: white;
   position: relative;
   padding-right: 10px;
+  font-size: 13px;
+  font-weight: 500;
 }
 .nav-link::after {
   content: "";
@@ -126,8 +128,15 @@ body{ background:var(--bg); color:var(--text); }
 }
 .hero-title {
   font-size: 26px;
-  line-height: 1.2;
-  margin: 0;
+  line-height: 1.25;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+body {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #e5edf5;
 }
 .hero-gradient {
   background: linear-gradient(90deg, #7c3aed, #22c55e, #06b6d4);
@@ -207,6 +216,7 @@ body{ background:var(--bg); color:var(--text); }
 .section-title {
   font-size: 18px;
   font-weight: 600;
+  letter-spacing: 0.02em;
 }
 .section-sub {
   font-size: 13px;
@@ -260,13 +270,14 @@ body{ background:var(--bg); color:var(--text); }
   opacity: 0.6;
 }
 .tool-title {
-  color: white;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
+  color: white;
 }
 .tool-sub {
   font-size: 12px;
-  color: #a6b0bb;
+  opacity: 0.85;
+   color: white;
 }
 .tool-meta {
   list-style: none;
@@ -329,3 +340,62 @@ body{ background:var(--bg); color:var(--text); }
     grid-template-columns: 1fr;
   }
 }
+
+.animated-logo {
+  position: relative;
+  width: 30px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Very thin gradient ring */
+.logo-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  padding: 1.5px; /* <-- thin ring thickness */
+  background: conic-gradient(
+    #3affdd,
+    #00d0ff,
+    #007bff,
+    #8250ff,
+    #3affdd
+  );
+  animation: spin 2.8s linear infinite;
+  filter: drop-shadow(0 0 4px #12f0ff);
+}
+
+/* Inner solid circle */
+.animated-logo::after {
+  content: "";
+  position: absolute;
+  inset: 3px; /* creates inner circle margin */
+  background: #020617; /* match header bg */
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.logo-text {
+  position: relative;
+  z-index: 2;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.6px;
+  background: linear-gradient(135deg, #a0faff, #6ee0ff, #5a6bff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  /* Slight glow */
+  text-shadow: 0 0 10px rgba(90, 180, 255, 0.3);
+}
+
+
+/* Rotating animation */
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+

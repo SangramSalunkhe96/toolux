@@ -1,24 +1,18 @@
-// src/app/layout.tsx
 import type { Metadata } from "next";
-import Script from "next/script";
+import Image from "next/image";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
+
+const jakarta = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+
 
 export const metadata: Metadata = {
   title: "Toolux – Smart Web Tools (PDF, Images & More)",
   description:
     "Toolux offers fast, private, in-browser tools like PDF ↔ Image conversion. No uploads, no login, fully free.",
-  metadataBase: new URL("https://toolux.in"), // change if domain different
-  openGraph: {
-    title: "Toolux – Smart Web Tools (PDF, Images & More)",
-    description:
-      "Fast, privacy-first online tools for PDFs, images and office files. Runs in your browser.",
-    url: "https://toolux.in",
-    siteName: "Toolux",
-    type: "website",
-  },
-  alternates: {
-    canonical: "https://toolux.in",
-  },
 };
 
 export default function RootLayout({
@@ -28,53 +22,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="overflow-x-hidden">
-
-<header className="container py-4 sm:py-6">
-  <div className="flex items-center justify-between gap-3 flex-wrap">
-    {/* Left side: logo + name + pill */}
-    <div className="flex items-center gap-3 min-w-0">
-      <div className="logo-badge">
-        <span className="logo-dot" />
-        <span className="logo-text">Tx</span>
-      </div>
-
-      <div className="flex flex-col">
-        <span className="font-semibold tracking-wide truncate">Toolux</span>
-        <span className="text-[11px] text-[#a6b0bb]">
-          Smart, private web utilities
-        </span>
-      </div>
-
-      {/* hide on small screens, show again from md and up */}
-      <span className="pill hidden md:inline-flex">
-        FREE • NO UPLOADS
-      </span>
-    </div>
-
-    {/* Right side: nav */}
-    <nav className="flex flex-wrap gap-4 text-xs sm:text-sm text-[#a6b0bb]">
-      <a href="#tools" className="nav-link">
-        Tools
-      </a>
-      <a href="#why" className="nav-link">
-        Why Toolux?
-      </a>
-      <a href="#faq" className="nav-link">
-        FAQ
-      </a>
-    </nav>
-  </div>
-</header>
+      <head>
+        {/* ---------- FAVICON USING YOUR NEW LOGO ---------- */}
+        {/* This is enough for Chrome/desktop to show the logo in the tab */}
+        <link rel="icon" href="/toolux-logoa.png"  />
 
         {/* ---------- GOOGLE ANALYTICS (GA4) ---------- */}
-        <Script
+        <script
+          async
           src="https://www.googletagmanager.com/gtag/js?id=G-95LNSG1FC3"
-          strategy="afterInteractive"
-        />
-        <Script
-          id="ga4-init"
-          strategy="afterInteractive"
+        ></script>
+        <script
           dangerouslySetInnerHTML={{
             __html: `
               window.dataLayer = window.dataLayer || [];
@@ -86,34 +44,64 @@ export default function RootLayout({
         />
 
         {/* ---------- GOOGLE ADSENSE (AUTO ADS) ---------- */}
-        <Script
-          id="adsense-script"
+        <script
+          async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=pub-2775890182147722"
-          strategy="afterInteractive"
           crossOrigin="anonymous"
-        />
+        ></script>
+      </head>
+
+      <body className={`${jakarta.className} overflow-x-hidden`}>
+        <header className="container py-4 sm:py-6">
+          <div className="flex items-center justify-between gap-3 flex-wrap">
+            {/* Left side: logo + name + pill */}
+            <div className="flex items-center gap-3 min-w-0">
+          <div className="logo-badge animated-logo">
+  <div className="logo-ring"></div>
+  <span className="logo-text">Tx</span>
+</div>
 
 
 
-        {/* ---------- PAGE CONTENT ---------- */}
+              <div className="flex flex-col">
+                <span className="font-semibold tracking-wide truncate">
+                  Toolux
+                </span>
+                <span className="text-[11px] text-[#a6b0bb]">
+                  Smart, private web utilities
+                </span>
+              </div>
+
+              <span className="pill hidden md:inline-flex">
+                FREE • NO UPLOADS
+              </span>
+            </div>
+
+            {/* Right side: nav */}
+            <nav className="flex flex-wrap gap-4 text-xs sm:text-sm text-[#a6b0bb]">
+              <a href="#tools" className="nav-link">
+                Tools
+              </a>
+              <a href="#why" className="nav-link">
+                Why Toolux?
+              </a>
+              <a href="#faq" className="nav-link">
+                FAQ
+              </a>
+            </nav>
+          </div>
+        </header>
+
         {children}
 
-        {/* ---------- FOOTER ---------- */}
-       <footer className="container py-10 text-xs text-[#a6b0bb] flex flex-wrap items-center justify-between gap-3">
-  <span>
-    © {new Date().getFullYear()} Toolux — Free, privacy-first web tools.
-  </span>
-
-  <div className="flex gap-4 text-[11px] opacity-80">
-    <a href="/privacy-policy" className="nav-link">Privacy</a>
-    <a href="/terms" className="nav-link">Terms</a>
-    <a href="/cookies" className="nav-link">Cookies</a>
-    <a href="/disclaimer" className="nav-link">Disclaimer</a>
-    <a href="/about" className="nav-link">About</a>
-    <a href="/contact" className="nav-link">Contact</a>
-  </div>
-</footer>
-
+        <footer className="container py-10 text-xs text-[#a6b0bb] flex flex-wrap items-center justify-between gap-3">
+          <span>
+            © {new Date().getFullYear()} Toolux — Free, privacy-first web tools.
+          </span>
+          <span className="text-[11px] opacity-80">
+            Built with software guy • All processing happens in your browser.
+          </span>
+        </footer>
       </body>
     </html>
   );
