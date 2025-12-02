@@ -5,6 +5,8 @@ import { useState, useRef } from "react";
 import Link from "next/link";
 import { tools } from "@/config/tools";
 
+const teamTools = tools.filter((t) => t.category === "Team");
+const nonTeamTools = tools.filter((t) => t.category !== "Team");
 const liveTools = tools.filter((t) => !t.comingSoon);
 const popularTools = liveTools.filter((t) => t.isPopular);
 
@@ -98,6 +100,7 @@ export default function HomePage() {
 
   return (
     <main>
+      
       {/* HERO */}
       <section className="container" style={{ marginTop: 12 }}>
         <div className="hero-shell">
@@ -107,17 +110,13 @@ export default function HomePage() {
               <span className="badge-soft">Pro server tools coming soon</span>
             </div>
 
-            <h1 className="hero-title">
-              Smart{" "}
-              <span className="hero-gradient">PDF, Office & Image tools</span>{" "}
-              that respect your privacy.
-            </h1>
-
-            <p className="hero-sub">
-              Toolux runs core tools directly in your browser — no file uploads. When you
-              need pixel-perfect Office conversions, Pro tools will use secure
-              server-side conversion.
-            </p>
+           <h1 className="hero-title">
+  Smart browser tools for work, study & teams
+</h1>
+<p className="section-sub" style={{ marginTop: 6 }}>
+  PDF, image, text, developer and team tools – all in one fast, privacy‑first toolbox.
+  Everything runs in your browser, no signup needed.
+</p>
 
             <div className="hero-actions">
               <a href="#tools" className="btn btn-primary">
@@ -187,6 +186,71 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* NEW: TEAM TOOLS SECTION */}
+<section id="team-tools" className="container" style={{ marginTop: 24, marginBottom: 24 }}>
+  <div className="card">
+    <div style={{ display: "flex", justifyContent: "space-between", gap: 8, flexWrap: "wrap" }}>
+      <div>
+        <h2 className="section-title">Team &amp; Retro tools</h2>
+        <p className="section-sub" style={{ marginTop: 4 }}>
+          Lightweight tools for agile teams – retros, stand-ups and action items.
+        </p>
+      </div>
+    </div>
+
+    <div
+      style={{
+        marginTop: 14,
+        display: "grid",
+        gap: 10,
+        gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))",
+      }}
+    >
+      {teamTools.map((tool) => (
+        <a
+          key={tool.id}
+          href={tool.slug}
+          className="drop"
+          style={{ textDecoration: "none" }}
+        >
+          <div style={{ fontSize: 22, marginBottom: 6 }}>{tool.icon}</div>
+          <h3 className="tool-title">{tool.title}</h3>
+          <p className="tool-sub" style={{ marginTop: 4 }}>
+            {tool.description}
+          </p>
+          <div
+            style={{
+              marginTop: 6,
+              display: "flex",
+              flexWrap: "wrap",
+              gap: 6,
+              fontSize: 11,
+            }}
+          >
+            {tool.meta?.map((tag: string) => (
+              <span
+                key={tag}
+                style={{
+                  padding: "2px 8px",
+                  borderRadius: 999,
+                  border: "1px solid #273041",
+                  background: "#020617",
+                  opacity: 0.9,
+                }}
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+
+     
 
       {/* POPULAR TOOLS */}
       <section className="container" style={{ marginTop: 24 }}>

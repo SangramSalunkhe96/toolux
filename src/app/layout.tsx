@@ -85,6 +85,7 @@ export default function RootLayout({
               <a href="#tools" className="nav-link">
                 Tools
               </a>
+              <a href="#team-tools" className="nav-link">Team tools</a>
               <a href="#why" className="nav-link">
                 Why Toolux?
               </a>
