@@ -11,9 +11,9 @@ const jakarta = Plus_Jakarta_Sans({
 
 
 export const metadata: Metadata = {
-  title: "Toolux – Smart Web Tools (PDF, Images & More)",
+  title: "Toolux – Free PDF Tools, Image Tools, Retro Boards & More (No Login)",
   description:
-    "Toolux offers fast, private, in-browser tools like PDF ↔ Image conversion. No uploads, no login, fully free.",
+    "Toolux provides fast, private, in‑browser tools for PDFs, images, text, AI utilities, and sprint retrospectives. No uploads, no login, always free.",
 icons: {
     icon: [
       { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
