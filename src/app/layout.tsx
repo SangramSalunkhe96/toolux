@@ -99,7 +99,31 @@ export default function RootLayout({
           </div>
         </header>
 
+     <script
+  dangerouslySetInnerHTML={{
+    __html: `
+      var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+      (function(){
+      var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+      s1.async=true;
+      s1.src='https://embed.tawk.to/69317f1341ab49197b2e6b99/1jbklgps0';
+      s1.charset='UTF-8';
+      s1.setAttribute('crossorigin','*');
+      s0.parentNode.insertBefore(s1,s0);
+      })();
+    `,
+  }}
+/>
+
+
         {children}
+
+
+      {/* Floating feedback button */}
+  <Link href="/feedback" className="feedback-btn" aria-label="Send feedback">
+  💬 Feedback
+</Link>
+
 
         <footer className="container py-10 text-xs text-[#a6b0bb] flex flex-wrap items-center justify-between gap-3">
           <span>
