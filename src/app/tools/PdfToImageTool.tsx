@@ -7,9 +7,7 @@ export default function PdfToImageTool() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleFile = async (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -18,12 +16,15 @@ export default function PdfToImageTool() {
     setError(null);
 
     try {
-      // 🔥 Lazy import (VERY IMPORTANT for Next.js)
-      const pdfjsLib = await import("pdfjs-dist/legacy/build/pdf");
+     // Correct import for latest versions
+const pdfjsLib = await import("pdfjs-dist");
 
-      // ✅ Use CDN worker (DO NOT import worker file)
-      pdfjsLib.GlobalWorkerOptions.workerSrc =
-        "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+
+// Correct worker path using version
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+  `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
+
 
       const arrayBuffer = await file.arrayBuffer();
       const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
@@ -42,17 +43,18 @@ export default function PdfToImageTool() {
         canvas.width = viewport.width;
         canvas.height = viewport.height;
 
-        await page.render({
-          canvasContext: context,
-          viewport,
-        }).promise;
+       await page.render({
+  canvasContext: context,
+  viewport,
+  canvas, // <-- REQUIRED IN PDF.js v5.x
+}).promise;
+
 
         const imgData = canvas.toDataURL("image/png");
         renderedImages.push(imgData);
       }
 
-      // 🔥 Force React update
-      setImages([...renderedImages]);
+      setImages([...renderedImages]); // force UI update
     } catch (err) {
       console.error(err);
       setError("Failed to render PDF. Please try another file.");
@@ -73,19 +75,15 @@ export default function PdfToImageTool() {
 
       {/* LOADING */}
       {loading && (
-        <p className="text-sm text-gray-400">
-          Rendering PDF pages…
-        </p>
+        <p className="text-sm text-gray-400">Rendering PDF pages…</p>
       )}
 
       {/* ERROR */}
       {error && (
-        <p className="text-sm text-red-400">
-          {error}
-        </p>
+        <p className="text-sm text-red-400">{error}</p>
       )}
 
-      {/* IMAGE PREVIEW */}
+      {/* THUMBNAIL PREVIEW */}
       {images.length > 0 && (
         <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
           {images.map((src, index) => (

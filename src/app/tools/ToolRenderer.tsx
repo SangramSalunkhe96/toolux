@@ -40,7 +40,8 @@ const PdfToImageTool = dynamic(
   { ssr: false }
 );
 
-const TOOL_COMPONENTS: Record<string, FC> = {
+const TOOL_COMPONENTS: Record<string, React.ComponentType<any>> = {
+
   // SOCIAL
   "instagram-caption-generator": InstagramCaptionTool,
   "instagram-hashtag-generator": InstagramHashtagTool,
