@@ -2,26 +2,13 @@
   "redirects": [
     {
       "source": "/(.*)",
-      "has": [
-        { "type": "host", "value": "www.toolux.in" }
-      ],
-      "destination": "https://toolux.in/:1",
+      "has": [{ "type": "host", "value": "www.toolux.in" }],
+      "destination": "https://toolux.in/$1",
       "permanent": true
     },
     {
       "source": "/(.*)",
-      "has": [
-        { "type": "host", "value": "toolux.co.in" }
-      ],
-      "destination": "https://toolux.in/:1",
-      "permanent": true
-    },
-    {
-      "source": "/(.*)",
-      "has": [
-        { "type": "host", "value": "www.toolux.co.in" }
-      ],
-      "destination": "https://toolux.in/:1",
+      "destination": "https://toolux.in/$1",
       "permanent": true
     }
   ]
