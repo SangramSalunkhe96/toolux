@@ -5,7 +5,8 @@ import Script from "next/script";
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <head>
+      <head >
+        <link rel="icon" href="/favicon.ico" />
         {/* Google Analytics */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-B2Y7KX73BL"
