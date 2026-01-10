@@ -55,6 +55,25 @@ a {
 }
 
 .w-full{
-  width: 90%;
+  width: 95%;
+}
+
+.w-full-second{
+  width: 92%;
+}
+
+.w-full-one{
+  margin-left: 2%;
+  width: 95%;
+}
+
+.w-full-insta{
+
+  width: 95%;
+}
+
+.w-full-insta-one{
+margin-left: 2%;
+  width: 95%;
 }
 

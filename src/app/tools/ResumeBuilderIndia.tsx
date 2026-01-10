@@ -125,7 +125,7 @@ export default function ResumeBuilderIndia() {
 
           <button
             onClick={downloadPDF}
-            className="w-full mt-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:opacity-90 transition"
+            className="w-full-one mt-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:opacity-90 transition"
           >
             Download Resume PDF
           </button>

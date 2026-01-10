@@ -59,6 +59,23 @@ export const tools: Tool[] = [
     icon: Youtube,
   },
 
+  {
+  name: "WhatsApp Link Generator",
+  slug: "whatsapp-link-generator",
+  category: "Social Media",
+  description: "Create direct WhatsApp chat links to share",
+  popular: true,
+  icon: Mail, // or any icon you like
+},
+{
+  name: "Chat Mockup Generator",
+  slug: "chat-mockup-generator",
+  category: "Social Media",
+  description: "Create chat screenshots for demo and design",
+  icon: FileImage,
+},
+
+
   // DOCUMENT TOOLS
   {
     name: "PDF to Image",

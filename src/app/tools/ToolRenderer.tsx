@@ -33,6 +33,9 @@ import MetaTagGeneratorTool from "./MetaTagGeneratorTool";
 import UTMBuilderTool from "./UTMBuilderTool";
 
 import ComingSoonTool from "./ComingSoonTool";
+import WhatsAppLinkGeneratorTool from "./WhatsAppLinkGeneratorTool";
+import ChatMockupGeneratorTool from "./ChatMockupGeneratorTool";
+
 
 /* 🔥 PDF TOOL (DYNAMIC, CLIENT‑ONLY) */
 const PdfToImageTool = dynamic(
@@ -50,6 +53,10 @@ const TOOL_COMPONENTS: Record<string, React.ComponentType<any>> = {
   "bio-generator": BioGeneratorTool,
   "fancy-text-generator": FancyTextTool,
   "instagram-reel-downloader": InstagramReelDownloader,
+
+// ✅ VIRAL TOOLS (ADD THESE)
+  "whatsapp-link-generator": WhatsAppLinkGeneratorTool,
+  "chat-mockup-generator": ChatMockupGeneratorTool,
 
   // DAILY
   "word-counter": WordCounterTool,
