@@ -101,13 +101,18 @@ export default function ImageToPdfTool() {
       }
 
       const pdfBytes = await pdfDoc.save();
-      const blob = new Blob([pdfBytes], { type: "application/pdf" });
 
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download = "images-to-pdf.pdf";
-      link.click();
-      URL.revokeObjectURL(link.href);
+// convert to Uint8Array explicitly
+const uint8Array = new Uint8Array(pdfBytes);
+
+const blob = new Blob([uint8Array], { type: "application/pdf" });
+
+const link = document.createElement("a");
+link.href = URL.createObjectURL(blob);
+link.download = "images-to-pdf.pdf";
+link.click();
+URL.revokeObjectURL(link.href);
+
     } catch (err) {
       console.error(err);
       alert("Failed to create PDF. Try different images.");
