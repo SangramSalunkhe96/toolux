@@ -86,6 +86,23 @@ export const tools: Tool[] = [
 
   // DOCUMENT TOOLS
   {
+  name: "Image Compressor",
+  slug: "image-compressor",
+  category: "Document Tools",
+  description: "Compress images online without quality loss",
+  popular: true,
+  icon: FileImage,
+},
+{
+  name: "Unlock PDF",
+  slug: "pdf-unlock",
+  category: "Document Tools",
+  description: "Remove password from PDF files",
+  popular: true,
+  icon: FileText,
+},
+
+  {
     name: "PDF to Image",
     slug: "pdf-to-image",
     category: "Document Tools",
@@ -115,6 +132,16 @@ export const tools: Tool[] = [
   popular: true,
   icon: FileText,
 },
+
+{
+  name: "Split PDF",
+  slug: "split-pdf",
+  category: "Document Tools",
+  description: "Download selected page range from PDF files",
+  popular: true,
+  icon: FileText,
+},
+
 
 
   // DEVELOPER TOOLS
@@ -166,6 +193,15 @@ export const tools: Tool[] = [
   description: "Generate professional cold emails",
   icon: Mail,
 },
+{
+  name: "Resume ATS Score Checker",
+  slug: "resume-ats-checker",
+  category: "Career Tools",
+  description: "Check how ATS‑friendly your resume is",
+  popular: true,
+  icon: Briefcase,
+},
+
 {
   name: "Resume Summary Generator",
   slug: "resume-summary-generator",

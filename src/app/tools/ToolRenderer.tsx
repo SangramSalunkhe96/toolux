@@ -18,10 +18,15 @@ import ResumeBuilderIndia from "./ResumeBuilderIndia";
 import OfferLetterGenerator from "./OfferLetterGenerator";
 import MergePdfTool from "./MergePdfTool";
 import ReelHookGeneratorTool from "./ReelHookGeneratorTool";
-
+import ImageCompressorTool from "./ImageCompressorTool";
+import PdfUnlockTool from "./PdfUnlockTool";
 
 import ImageToPdfTool from "./ImageToPdfTool";
-import CompressPdfTool from "./CompressPdfTool";
+const CompressPdfTool = dynamic(
+  () => import("./CompressPdfTool"),
+  { ssr: false }
+);
+
 
 import WordCounterTool from "./WordCounterTool";
 import CaseConverterTool from "./CaseConverterTool";
@@ -33,11 +38,11 @@ import JSONFormatterTool from "./JSONFormatterTool";
 import JWTDecoderTool from "./JWTDecoderTool";
 import MetaTagGeneratorTool from "./MetaTagGeneratorTool";
 import UTMBuilderTool from "./UTMBuilderTool";
-
+import ResumeAtsCheckerTool from "./ResumeAtsCheckerTool";
 import ComingSoonTool from "./ComingSoonTool";
 import WhatsAppLinkGeneratorTool from "./WhatsAppLinkGeneratorTool";
 import ChatMockupGeneratorTool from "./ChatMockupGeneratorTool";
-
+import SplitPdfTool from "./SplitPdfTool";
 
 /* 🔥 PDF TOOL (DYNAMIC, CLIENT‑ONLY) */
 const PdfToImageTool = dynamic(
@@ -75,17 +80,22 @@ const TOOL_COMPONENTS: Record<string, React.ComponentType<any>> = {
   "utm-builder": UTMBuilderTool,
 
   // BUSINESS / CAREER
+  "resume-ats-checker": ResumeAtsCheckerTool,
   "gst-invoice-generator": GSTInvoiceGenerator,
   "cold-email-generator": ColdEmailGenerator,
   "resume-summary-generator": ResumeSummaryGenerator,
   "resume-builder-india": ResumeBuilderIndia,
   "offer-letter-generator": OfferLetterGenerator,
+  
 
   // PDF
+  "image-compressor": ImageCompressorTool,
+"pdf-unlock": PdfUnlockTool,
   "pdf-to-image": PdfToImageTool,
   "image-to-pdf": ImageToPdfTool,
   "compress-pdf": CompressPdfTool,
   "merge-pdf": MergePdfTool,
+  "split-pdf": SplitPdfTool,
 };
 
 

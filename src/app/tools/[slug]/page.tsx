@@ -2,6 +2,8 @@ import { tools } from "@/data/tools";
 import { notFound } from "next/navigation";
 import ToolRenderer from "../ToolRenderer";
 import Script from "next/script";
+import FeedbackSlider from "@/components/FeedbackSlider";
+import FeedbackForm from "@/components/FeedbackForm";
 
 
 export async function generateMetadata({ params }: any) {
@@ -78,6 +80,13 @@ export default async function ToolPage({
         </ul>
       </section>
 
+      {/* USER FEEDBACK */}
+<div className="mt-16 space-y-8">
+  <FeedbackSlider />
+  <FeedbackForm />
+</div>
+
+
       {/* ✅ RELATED TOOLS (BOOST PAGE VIEWS & ADS) */}
       {related.length > 0 && (
         <section className="mt-14">
@@ -103,6 +112,11 @@ export default async function ToolPage({
       )}
 
       {/* SEO FAQ SCHEMA */}
+      <Script
+  src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"
+  strategy="afterInteractive"
+/>
+
       <Script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
