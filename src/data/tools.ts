@@ -44,6 +44,14 @@ export const tools: Tool[] = [
     icon: Instagram,
   },
   {
+  name: "Reel Hook Generator",
+  slug: "reel-hook-generator",
+  category: "Social Media",
+  description: "Generate viral hooks for Instagram Reels",
+  popular: true,
+  icon: Instagram,
+},
+  {
     name: "Instagram Hashtag Generator",
     slug: "instagram-hashtag-generator",
     category: "Social Media",
@@ -99,6 +107,15 @@ export const tools: Tool[] = [
     description: "Reduce PDF size",
     icon: FileText,
   },
+  {
+  name: "Merge PDF",
+  slug: "merge-pdf",
+  category: "Document Tools",
+  description: "Merge multiple PDF files into one instantly",
+  popular: true,
+  icon: FileText,
+},
+
 
   // DEVELOPER TOOLS
   {

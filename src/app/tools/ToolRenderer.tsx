@@ -16,6 +16,8 @@ import ResumeSummaryGenerator from "./ResumeSummaryGenerator";
 import InstagramReelDownloader from "./InstagramReelDownloader";
 import ResumeBuilderIndia from "./ResumeBuilderIndia";
 import OfferLetterGenerator from "./OfferLetterGenerator";
+import MergePdfTool from "./MergePdfTool";
+import ReelHookGeneratorTool from "./ReelHookGeneratorTool";
 
 
 import ImageToPdfTool from "./ImageToPdfTool";
@@ -47,6 +49,7 @@ const TOOL_COMPONENTS: Record<string, React.ComponentType<any>> = {
 
   // SOCIAL
   "instagram-caption-generator": InstagramCaptionTool,
+  "reel-hook-generator": ReelHookGeneratorTool,
   "instagram-hashtag-generator": InstagramHashtagTool,
   "youtube-title-generator": YouTubeTitleTool,
   "youtube-description-generator": YouTubeDescriptionTool,
@@ -82,6 +85,7 @@ const TOOL_COMPONENTS: Record<string, React.ComponentType<any>> = {
   "pdf-to-image": PdfToImageTool,
   "image-to-pdf": ImageToPdfTool,
   "compress-pdf": CompressPdfTool,
+  "merge-pdf": MergePdfTool,
 };
 
 
