@@ -10,12 +10,20 @@ declare global {
 
 export default function PdfToImageTool() {
   const [ready, setReady] = useState(false);
+  const [file, setFile] = useState<File | null>(null);
+
   const [images, setImages] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [progress, setProgress] = useState(0);
 
-  // ✅ Load pdf.js from CDN (no webpack, no canvas error, privacy safe)
+  // OPTIONS
+  const [rangeType, setRangeType] = useState<"all" | "custom">("all");
+  const [fromPage, setFromPage] = useState(1);
+  const [toPage, setToPage] = useState(1);
+  const [quality, setQuality] = useState<"low" | "medium" | "high">("medium");
+
+  // LOAD PDF.JS FROM CDN
   useEffect(() => {
     const script = document.createElement("script");
     script.src =
@@ -28,8 +36,27 @@ export default function PdfToImageTool() {
     document.body.appendChild(script);
   }, []);
 
-  const handleFile = async (file: File) => {
-    if (!ready) return;
+  const getScale = () => {
+    if (quality === "low") return 1.2;
+    if (quality === "high") return 3;
+    return 2; // medium
+  };
+
+  const getJpegQuality = () => {
+    if (quality === "low") return 0.6;
+    if (quality === "high") return 0.95;
+    return 0.8;
+  };
+
+  // ONLY STORE FILE — NO CONVERSION YET
+  const handleSelect = (f: File) => {
+    setFile(f);
+    setImages([]);
+    setError("");
+  };
+
+  const convertPdf = async () => {
+    if (!ready || !file) return;
 
     setLoading(true);
     setImages([]);
@@ -40,11 +67,20 @@ export default function PdfToImageTool() {
       const buffer = await file.arrayBuffer();
       const pdf = await window.pdfjsLib.getDocument({ data: buffer }).promise;
 
-      const imgs: string[] = [];
+      const start =
+        rangeType === "all" ? 1 : Math.max(1, Number(fromPage));
+      const end =
+        rangeType === "all"
+          ? pdf.numPages
+          : Math.min(pdf.numPages, Number(toPage));
 
-      for (let i = 1; i <= pdf.numPages; i++) {
+      const imgs: string[] = [];
+      const total = end - start + 1;
+      let done = 0;
+
+      for (let i = start; i <= end; i++) {
         const page = await pdf.getPage(i);
-        const viewport = page.getViewport({ scale: 2 });
+        const viewport = page.getViewport({ scale: getScale() });
 
         const canvas = document.createElement("canvas");
         const ctx = canvas.getContext("2d");
@@ -55,8 +91,11 @@ export default function PdfToImageTool() {
 
         await page.render({ canvasContext: ctx, viewport }).promise;
 
-        imgs.push(canvas.toDataURL("image/png"));
-        setProgress(Math.round((i / pdf.numPages) * 100));
+        const img = canvas.toDataURL("image/jpeg", getJpegQuality());
+        imgs.push(img);
+
+        done++;
+        setProgress(Math.round((done / total) * 100));
       }
 
       setImages(imgs);
@@ -68,10 +107,17 @@ export default function PdfToImageTool() {
     setLoading(false);
   };
 
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    if (e.dataTransfer.files[0]) {
+      handleSelect(e.dataTransfer.files[0]);
+    }
+  };
+
   const downloadZip = async () => {
     const zip = new JSZip();
     images.forEach((img, i) => {
-      zip.file(`page-${i + 1}.png`, img.split(",")[1], { base64: true });
+      zip.file(`page-${i + 1}.jpg`, img.split(",")[1], { base64: true });
     });
 
     const blob = await zip.generateAsync({ type: "blob" });
@@ -96,18 +142,100 @@ export default function PdfToImageTool() {
       )}
 
       {/* UPLOAD */}
-      <label className="block border-2 border-dashed border-gray-300 rounded-xl p-8 text-center cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition">
+      <div
+        onDrop={handleDrop}
+        onDragOver={(e) => e.preventDefault()}
+        className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-blue-500 hover:bg-blue-50 transition"
+      >
         <input
           type="file"
           accept="application/pdf"
           hidden
-          onChange={(e) => e.target.files && handleFile(e.target.files[0])}
+          id="pdf-upload"
+          onChange={(e) => e.target.files && handleSelect(e.target.files[0])}
         />
-        <p className="font-semibold text-gray-800">Click to upload PDF</p>
-        <p className="text-sm text-gray-500 mt-1">
-          100% private — files never leave your device
-        </p>
-      </label>
+        <label htmlFor="pdf-upload" className="cursor-pointer">
+          <p className="font-semibold text-gray-800">
+            Click or Drag & Drop PDF here
+          </p>
+          {file && (
+            <p className="text-sm text-green-600 mt-1">
+              Selected: {file.name}
+            </p>
+          )}
+          <p className="text-sm text-gray-500 mt-1">
+            Files never leave your device
+          </p>
+        </label>
+      </div>
+
+      {/* OPTIONS */}
+      <div className="grid md:grid-cols-3 gap-4">
+
+        {/* PAGE RANGE */}
+        <div className="space-y-2">
+          <p className="font-semibold text-gray-800">Page Range</p>
+          <select
+            value={rangeType}
+            onChange={(e) => setRangeType(e.target.value as any)}
+            className="w-full border rounded-lg px-3 py-2"
+          >
+            <option value="all">All Pages</option>
+            <option value="custom">From – To</option>
+          </select>
+
+          {rangeType === "custom" && (
+            <div className="flex gap-2">
+              <input
+                type="number"
+                min={1}
+                value={fromPage}
+                onChange={(e) => setFromPage(Number(e.target.value))}
+                className="w-full border rounded-lg px-3 py-2"
+                placeholder="From"
+              />
+              <input
+                type="number"
+                min={1}
+                value={toPage}
+                onChange={(e) => setToPage(Number(e.target.value))}
+                className="w-full border rounded-lg px-3 py-2"
+                placeholder="To"
+              />
+            </div>
+          )}
+        </div>
+
+        {/* QUALITY */}
+        <div className="space-y-2">
+          <p className="font-semibold text-gray-800">Image Quality</p>
+          <select
+            value={quality}
+            onChange={(e) => setQuality(e.target.value as any)}
+            className="w-full border rounded-lg px-3 py-2"
+          >
+            <option value="low">Low (small size)</option>
+            <option value="medium">Medium</option>
+            <option value="high">High (best quality)</option>
+          </select>
+        </div>
+
+        {/* INFO */}
+        <div className="bg-gray-50 rounded-xl p-4 text-sm text-gray-600">
+          <p>✔ No upload</p>
+          <p>✔ Works offline</p>
+          <p>✔ Safe for documents</p>
+        </div>
+      </div>
+
+      {/* CONVERT BUTTON */}
+      <button
+        disabled={!file || loading}
+        onClick={convertPdf}
+        className="mx-auto block bg-blue-600 text-white px-10 py-3 rounded-xl font-semibold hover:bg-blue-700 disabled:opacity-50"
+      >
+        Convert PDF
+      </button>
 
       {/* PROGRESS */}
       {loading && (
@@ -128,7 +256,7 @@ export default function PdfToImageTool() {
         <p className="text-center text-red-600 font-medium">{error}</p>
       )}
 
-      {/* ZIP BUTTON */}
+      {/* ZIP */}
       {images.length > 0 && (
         <button
           onClick={downloadZip}
@@ -162,7 +290,7 @@ export default function PdfToImageTool() {
 
                 <a
                   href={src}
-                  download={`page-${i + 1}.png`}
+                  download={`page-${i + 1}.jpg`}
                   className="mt-2 w-full text-center bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
                 >
                   Download
