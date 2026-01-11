@@ -16,7 +16,7 @@ export default function YouTubeTitleTool() {
 
   return (
     <div className="space-y-4">
-      <input className="input" value={topic} onChange={e => setTopic(e.target.value)} placeholder="Video topic" />
+      <input className="video-title-input-youtube-tool" value={topic} onChange={e => setTopic(e.target.value)} placeholder="Video topic" />
       <button onClick={generate} className="btn-primary">Generate Title</button>
       {result && <div className="output">{result}</div>}
     </div>

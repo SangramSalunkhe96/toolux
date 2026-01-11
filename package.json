@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "docx": "^9.5.1",
+    "file-saver": "^2.0.5",
     "html2pdf.js": "^0.13.0",
     "jspdf": "^3.0.3",
     "jszip": "^3.10.1",
@@ -18,7 +19,6 @@
     "next": "^16.1.1",
     "nodemailer": "^7.0.11",
     "pdf-lib": "^1.17.1",
-    "pdfjs-dist": "^5.4.449",
     "qrcode": "^1.5.4",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
